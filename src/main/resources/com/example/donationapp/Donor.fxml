@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="com.example.donationapp.controllers.DonorController">
+    
+    <!-- Top Navigation Bar -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-padding: 15;">
+            <Label text="🎁 Donor Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel" text="Welcome, Donor" style="-fx-font-size: 14px; -fx-text-fill: white;"/>
+            <Label fx:id="verificationStatusLabel" text="⚠ Unverified" style="-fx-font-size: 12px; -fx-text-fill: #FFD700;"/>
+            <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout" 
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5;"/>
+        </HBox>
+    </top>
+    
+    <!-- Left Sidebar -->
+    <left>
+        <VBox spacing="10" style="-fx-background-color: #2c3e50; -fx-padding: 20;" prefWidth="200">
+            <Label text="Menu" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Separator/>
+            <Button fx:id="makeDonationBtn" text="💰 Make Donation" onAction="#showMakeDonation" prefWidth="160"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10;"/>
+            <Button fx:id="viewDonationsBtn" text="📋 My Donations" onAction="#showMyDonations" prefWidth="160"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10;"/>
+            <Button fx:id="viewCasesBtn" text="📁 View Cases" onAction="#showCharityCases" prefWidth="160"
+                    style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10;"/>
+            <Button fx:id="verifyAccountBtn" text="✓ Verify Account" onAction="#handleVerifyAccount" prefWidth="160"
+                    style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10;"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Label fx:id="notificationLabel" text="" style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;" wrapText="true"/>
+        </VBox>
+    </left>
+    
+    <!-- Center Content Area -->
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-background-color: #ecf0f1; -fx-padding: 20;">
+            
+            <!-- Default Dashboard View -->
+            <VBox fx:id="dashboardView" spacing="20" alignment="TOP_CENTER">
+                <Label text="Welcome to Your Dashboard" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                
+                <!-- Stats Cards -->
+                <HBox spacing="20" alignment="CENTER">
+                    <VBox alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" prefWidth="200">
+                        <Label fx:id="totalDonationsLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #3498db;"/>
+                        <Label text="Total Donations" style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;"/>
+                    </VBox>
+                    <VBox alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" prefWidth="200">
+                        <Label fx:id="totalAmountLabel" text="\$ 0.00" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                        <Label text="Amount Donated" style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;"/>
+                    </VBox>
+                </HBox>
+                
+                <!-- Recent Activity -->
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
+                    <Label text="Recent Charity Cases" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <TableView fx:id="recentCasesTable" prefHeight="200">
+                        <columns>
+                            <TableColumn fx:id="caseNameCol" text="Case Name" prefWidth="200"/>
+                            <TableColumn fx:id="caseDescCol" text="Description" prefWidth="250"/>
+                            <TableColumn fx:id="caseGoalCol" text="Goal Amount" prefWidth="120"/>
+                            <TableColumn fx:id="caseRaisedCol" text="Raised" prefWidth="120"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </VBox>
+            
+            <!-- Make Donation View (hidden by default) -->
+            <VBox fx:id="makeDonationView" spacing="15" alignment="TOP_CENTER" visible="false" managed="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 30;">
+                <Label text="Make a Donation" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                
+                <HBox spacing="30" alignment="CENTER">
+                    <VBox spacing="10" prefWidth="300">
+                        <Label text="Select Charity Case" style="-fx-font-size: 14px; -fx-text-fill: #555;"/>
+                        <ComboBox fx:id="charityCaseComboBox" promptText="Select a case" prefWidth="280"/>
+                        
+                        <Label text="Donation Type" style="-fx-font-size: 14px; -fx-text-fill: #555;"/>
+                        <ComboBox fx:id="donationTypeComboBox" promptText="Select type" prefWidth="280">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Financial"/>
+                                    <String fx:value="Medical"/>
+                                    <String fx:value="Other"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+                        
+                        <Label text="Amount / Quantity" style="-fx-font-size: 14px; -fx-text-fill: #555;"/>
+                        <TextField fx:id="amountField" promptText="Enter amount"/>
+                        
+                        <Label text="Description" style="-fx-font-size: 14px; -fx-text-fill: #555;"/>
+                        <TextArea fx:id="descriptionField" promptText="Enter donation description" prefHeight="80"/>
+                    </VBox>
+                </HBox>
+                
+                <Label fx:id="donationMessageLabel" style="-fx-text-fill: red; -fx-font-size: 12px;"/>
+                <Button fx:id="submitDonationBtn" text="Submit Donation" onAction="#handleSubmitDonation"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5; -fx-padding: 10 30;"/>
+                <Button text="Back to Dashboard" onAction="#showDashboard"
+                        style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 5;"/>
+            </VBox>
+            
+            <!-- My Donations View (hidden by default) -->
+            <VBox fx:id="myDonationsView" spacing="15" alignment="TOP_CENTER" visible="false" managed="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 30;">
+                <Label text="My Donations" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <TableView fx:id="myDonationsTable" prefHeight="350">
+                    <columns>
+                        <TableColumn fx:id="donationDateCol" text="Date" prefWidth="150"/>
+                        <TableColumn fx:id="donationTypeCol" text="Type" prefWidth="100"/>
+                        <TableColumn fx:id="donationAmountCol" text="Amount" prefWidth="120"/>
+                        <TableColumn fx:id="donationCaseCol" text="Charity Case" prefWidth="200"/>
+                        <TableColumn fx:id="donationStatusCol" text="Status" prefWidth="100"/>
+                    </columns>
+                </TableView>
+                <Button text="Back to Dashboard" onAction="#showDashboard"
+                        style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 5;"/>
+            </VBox>
+            
+            <!-- Charity Cases View (hidden by default) -->
+            <VBox fx:id="charityCasesView" spacing="15" alignment="TOP_CENTER" visible="false" managed="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 30;">
+                <Label text="Active Charity Cases" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <TableView fx:id="allCasesTable" prefHeight="350">
+                    <columns>
+                        <TableColumn fx:id="allCaseNameCol" text="Case Name" prefWidth="180"/>
+                        <TableColumn fx:id="allCaseDescCol" text="Description" prefWidth="220"/>
+                        <TableColumn fx:id="allCaseGoalCol" text="Goal" prefWidth="100"/>
+                        <TableColumn fx:id="allCaseRaisedCol" text="Raised" prefWidth="100"/>
+                        <TableColumn fx:id="allCaseProgressCol" text="Progress" prefWidth="100"/>
+                    </columns>
+                </TableView>
+                <Button text="Back to Dashboard" onAction="#showDashboard"
+                        style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 5;"/>
+            </VBox>
+            
+        </StackPane>
+    </center>
+    
+    <!-- Bottom Status Bar -->
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-background-color: #34495e; -fx-padding: 10;">
+            <Label fx:id="statusLabel" text="Ready" style="-fx-text-fill: #bdc3c7; -fx-font-size: 12px;"/>
+        </HBox>
+    </bottom>
+    
+</BorderPane>

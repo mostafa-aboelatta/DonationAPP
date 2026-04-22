@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<VBox alignment="CENTER" spacing="15" prefHeight="500.0" prefWidth="450.0" 
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.example.donationapp.controllers.SignupController"
+      style="-fx-background-color: linear-gradient(to bottom, #667eea, #764ba2);">
+    
+    <padding>
+        <Insets top="30" right="40" bottom="30" left="40"/>
+    </padding>
+    
+    <!-- Title -->
+    <Label text="Create Account" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+    <Label text="Join our donation community" style="-fx-font-size: 14px; -fx-text-fill: #e0e0e0;"/>
+    
+    <!-- Form Container -->
+    <VBox spacing="12" style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 25;">
+        
+        <!-- Username Field -->
+        <VBox spacing="5">
+            <Label text="Username" style="-fx-font-size: 12px; -fx-text-fill: #555;"/>
+            <TextField fx:id="usernameField" promptText="Enter your username" 
+                       style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #ddd; -fx-padding: 10;"/>
+        </VBox>
+        
+        <!-- Email Field -->
+        <VBox spacing="5">
+            <Label text="Email" style="-fx-font-size: 12px; -fx-text-fill: #555;"/>
+            <TextField fx:id="emailField" promptText="Enter your email" 
+                       style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #ddd; -fx-padding: 10;"/>
+        </VBox>
+        
+        <!-- Password Field -->
+        <VBox spacing="5">
+            <Label text="Password" style="-fx-font-size: 12px; -fx-text-fill: #555;"/>
+            <PasswordField fx:id="passwordField" promptText="Enter your password" 
+                           style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #ddd; -fx-padding: 10;"/>
+        </VBox>
+        
+        <!-- Confirm Password Field -->
+        <VBox spacing="5">
+            <Label text="Confirm Password" style="-fx-font-size: 12px; -fx-text-fill: #555;"/>
+            <PasswordField fx:id="confirmPasswordField" promptText="Confirm your password" 
+                           style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #ddd; -fx-padding: 10;"/>
+        </VBox>
+        
+        <!-- Phone Field -->
+        <VBox spacing="5">
+            <Label text="Phone Number" style="-fx-font-size: 12px; -fx-text-fill: #555;"/>
+            <TextField fx:id="phoneField" promptText="Enter your phone number" 
+                       style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #ddd; -fx-padding: 10;"/>
+        </VBox>
+        
+        <!-- User Type Selection -->
+        <VBox spacing="5">
+            <Label text="Register As" style="-fx-font-size: 12px; -fx-text-fill: #555;"/>
+            <ComboBox fx:id="userTypeComboBox" promptText="Select User Type" prefWidth="300"
+                      style="-fx-background-radius: 8; -fx-border-radius: 8;">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Donor"/>
+                        <String fx:value="Receiver"/>
+                        <String fx:value="Admin"/>
+                        <String fx:value="Volunteer"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </VBox>
+        
+        <!-- Error Message Label -->
+        <Label fx:id="messageLabel" style="-fx-text-fill: red; -fx-font-size: 12px;"/>
+        
+        <!-- Signup Button -->
+        <Button fx:id="signupButton" text="Create Account" onAction="#handleSignup" prefWidth="300"
+                style="-fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 12;"/>
+        
+    </VBox>
+    
+    <!-- Back to Login Link -->
+    <HBox alignment="CENTER" spacing="5">
+        <Label text="Already have an account?" style="-fx-text-fill: white;"/>
+        <Hyperlink fx:id="loginLink" text="Sign In" onAction="#handleBackToLogin" 
+                   style="-fx-text-fill: #FFD700; -fx-font-weight: bold;"/>
+    </HBox>
+    
+</VBox>

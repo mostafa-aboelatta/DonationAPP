@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" alignment="TOP_CENTER" prefHeight="500.0" prefWidth="700.0" 
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      style="-fx-background-color: #ecf0f1; -fx-padding: 20;">
+    
+    <!-- Header -->
+    <Label text="🎗️ Charity Cases" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+    
+    <!-- Search and Filter -->
+    <HBox spacing="15" alignment="CENTER">
+        <TextField fx:id="searchField" promptText="Search cases..." prefWidth="250"
+                   style="-fx-background-radius: 5; -fx-border-radius: 5;"/>
+        <ComboBox fx:id="categoryFilter" promptText="Category" prefWidth="150"/>
+        <ComboBox fx:id="statusFilter" promptText="Status" prefWidth="120"/>
+        <Button text="Search" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5;"/>
+    </HBox>
+    
+    <!-- Cases Table -->
+    <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15;">
+        <TableView fx:id="casesTable" prefHeight="300">
+            <columns>
+                <TableColumn fx:id="caseIdCol" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="caseNameCol" text="Case Name" prefWidth="150"/>
+                <TableColumn fx:id="caseDescCol" text="Description" prefWidth="180"/>
+                <TableColumn fx:id="caseGoalCol" text="Goal" prefWidth="80"/>
+                <TableColumn fx:id="caseRaisedCol" text="Raised" prefWidth="80"/>
+                <TableColumn fx:id="caseStatusCol" text="Status" prefWidth="80"/>
+            </columns>
+        </TableView>
+    </VBox>
+    
+    <!-- Action Buttons -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button fx:id="viewDetailsBtn" text="View Details" 
+                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10 20;"/>
+        <Button fx:id="donateBtn" text="Donate Now" 
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10 20;"/>
+        <Button fx:id="backBtn" text="Back" 
+                style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10 20;"/>
+    </HBox>
+    
+</VBox>

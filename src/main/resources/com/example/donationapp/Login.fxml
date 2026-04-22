@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.example.donationapp.controllers.LoginController">
+
+    <!-- Background Image -->
+    <ImageView fitWidth="800" fitHeight="600" preserveRatio="false">
+        <Image url="@LoginPic.jpg"/>
+    </ImageView>
+
+    <!-- Login Content -->
+    <VBox alignment="CENTER" spacing="20" stylesheets="@application.css" styleClass="root-container">
+        <padding>
+            <Insets top="40" right="40" bottom="40" left="40"/>
+        </padding>
+
+        <VBox fx:id="mainContainer" alignment="CENTER" spacing="20" styleClass="login-container">
+            <padding>
+                <Insets top="30" right="20" bottom="30" left="20"/>
+            </padding>
+
+            <!-- Title -->
+            <Label text="Donation Management System" styleClass="title-label">
+                <font>
+                    <Font size="20" name="System Bold"/>
+                </font>
+            </Label>
+
+            <Label text="Login to your account" styleClass="subtitle-label">
+                <font>
+                    <Font size="14"/>
+                </font>
+            </Label>
+
+            <!-- Login Form -->
+            <VBox spacing="15" alignment="CENTER">
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Email:" prefWidth="100"/>
+                    <TextField fx:id="emailField" promptText="Enter your email" prefWidth="250"/>
+                </HBox>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Password:" prefWidth="100"/>
+                    <PasswordField fx:id="passwordField" promptText="Enter your password" prefWidth="250"/>
+                </HBox>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="User Type:" prefWidth="100"/>
+                    <ComboBox fx:id="userTypeComboBox" prefWidth="250"/>
+                </HBox>
+            </VBox>
+
+            <!-- Error Label -->
+            <Label fx:id="errorLabel" text="" textFill="red"/>
+
+            <!-- Buttons -->
+            <HBox spacing="20" alignment="CENTER">
+                <Button fx:id="loginButton" text="Login" onAction="#handleLogin"
+                        prefWidth="120" styleClass="primary-button"/>
+                <Button fx:id="signupButton" text="Sign Up" onAction="#handleSignup"
+                        prefWidth="120" styleClass="secondary-button"/>
+            </HBox>
+        </VBox>
+    </VBox>
+</StackPane>

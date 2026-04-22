@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.donationapp.controllers.VolunteerController">
+
+    <!-- Top Navigation Bar -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: linear-gradient(to right, #f093fb, #f5576c); -fx-padding: 15;">
+            <Label text="🤝 Volunteer Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel" text="Welcome, Volunteer" style="-fx-font-size: 14px; -fx-text-fill: white;"/>
+            <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout"
+                    style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5;"/>
+        </HBox>
+    </top>
+
+    <!-- Left Sidebar -->
+    <left>
+        <VBox spacing="10" style="-fx-background-color: #2c3e50; -fx-padding: 20;" prefWidth="200">
+            <Label text="Menu" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Separator/>
+            <Button fx:id="viewCasesBtn" text="📁 View Cases" onAction="#showActiveCases" prefWidth="160"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10;"/>
+            <Button fx:id="myAssignmentsBtn" text="📋 My Assignments" onAction="#showMyAssignments" prefWidth="160"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10;"/>
+            <Button fx:id="helpReceiversBtn" text="🙋 Help Receivers" onAction="#showHelpReceivers" prefWidth="160"
+                    style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10;"/>
+            <Button fx:id="logHoursBtn" text="⏱️ Log Hours" onAction="#showLogHours" prefWidth="160"
+                    style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10;"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Label fx:id="notificationLabel" text="" style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;" wrapText="true"/>
+        </VBox>
+    </left>
+
+    <!-- Center Content Area -->
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-background-color: #ecf0f1; -fx-padding: 20;">
+
+            <!-- Default Dashboard View -->
+            <VBox fx:id="dashboardView" spacing="20" alignment="TOP_CENTER">
+                <Label text="Welcome to Your Dashboard" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+                <!-- Stats Cards -->
+                <HBox spacing="20" alignment="CENTER">
+                    <VBox alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" prefWidth="180">
+                        <Label fx:id="assignedCasesLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #3498db;"/>
+                        <Label text="Assigned Cases" style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;"/>
+                    </VBox>
+                    <VBox alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" prefWidth="180">
+                        <Label fx:id="hoursLoggedLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                        <Label text="Hours Logged" style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;"/>
+                    </VBox>
+                    <VBox alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" prefWidth="180">
+                        <Label fx:id="peopleHelpedLabel" text="0" style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #9b59b6;"/>
+                        <Label text="People Helped" style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Volunteer Info Section -->
+                <HBox spacing="30" alignment="CENTER">
+                    <VBox spacing="5">
+                        <Label text="Your Role" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+                        <Label fx:id="roleLabel" text="Role: Unassigned" style="-fx-font-size: 14px; -fx-text-fill: #2c3e50; -fx-font-weight: bold;"/>
+                    </VBox>
+                    <VBox spacing="5">
+                        <Label text="Total Hours" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+                        <Label fx:id="hoursLabel" text="0" style="-fx-font-size: 14px; -fx-text-fill: #2c3e50; -fx-font-weight: bold;"/>
+                    </VBox>
+                    <VBox spacing="5">
+                        <Label text="Location" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+                        <Label fx:id="locationLabel" text="Not set" style="-fx-font-size: 14px; -fx-text-fill: #2c3e50; -fx-font-weight: bold;"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Recent Activity -->
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
+                    <Label text="Available Cases to Help" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <TableView fx:id="availableCasesTable" prefHeight="200">
+                        <columns>
+                            <TableColumn fx:id="caseNameCol" text="Case Name" prefWidth="180"/>
+                            <TableColumn fx:id="caseDescCol" text="Description" prefWidth="250"/>
+                            <TableColumn fx:id="caseCategoryCol" text="Category" prefWidth="100"/>
+                            <TableColumn fx:id="caseUrgencyCol" text="Urgency" prefWidth="80"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </VBox>
+
+            <!-- Active Cases View -->
+            <VBox fx:id="casesView" spacing="15" alignment="TOP_CENTER" visible="false" managed="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 30;">
+                <Label text="Active Charity Cases" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <TableView fx:id="allCasesTable" prefHeight="350">
+                    <columns>
+                        <TableColumn fx:id="allCaseNameCol" text="Case Name" prefWidth="150"/>
+                        <TableColumn fx:id="allCaseDescCol" text="Description" prefWidth="200"/>
+                        <TableColumn fx:id="allCaseReceiverCol" text="Receiver" prefWidth="120"/>
+                        <TableColumn fx:id="allCaseGoalCol" text="Goal" prefWidth="100"/>
+                        <TableColumn fx:id="allCaseProgressCol" text="Progress" prefWidth="100"/>
+                    </columns>
+                </TableView>
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="Volunteer for Case" onAction="#handleVolunteerForCase"
+                            style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                    <Button text="Back" onAction="#showDashboard" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+
+            <!-- My Assignments View -->
+            <VBox fx:id="assignmentsView" spacing="15" alignment="TOP_CENTER" visible="false" managed="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 30;">
+                <Label text="My Assignments" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <TableView fx:id="myAssignmentsTable" prefHeight="350">
+                    <columns>
+                        <TableColumn fx:id="assignmentCaseCol" text="Case Name" prefWidth="150"/>
+                        <TableColumn fx:id="assignmentReceiverCol" text="Receiver" prefWidth="120"/>
+                        <TableColumn fx:id="assignmentTaskCol" text="Task" prefWidth="200"/>
+                        <TableColumn fx:id="assignmentStatusCol" text="Status" prefWidth="100"/>
+                        <TableColumn fx:id="assignmentDateCol" text="Assigned Date" prefWidth="120"/>
+                    </columns>
+                </TableView>
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="Mark Complete" onAction="#handleMarkComplete"
+                            style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                    <Button text="Back" onAction="#showDashboard" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Help Receivers View -->
+            <VBox fx:id="helpReceiversView" spacing="15" alignment="TOP_CENTER" visible="false" managed="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 30;">
+                <Label text="Receivers Needing Help" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <TableView fx:id="receiversTable" prefHeight="350">
+                    <columns>
+                        <TableColumn fx:id="receiverNameCol" text="Receiver Name" prefWidth="150"/>
+                        <TableColumn fx:id="receiverCaseCol" text="Case" prefWidth="180"/>
+                        <TableColumn fx:id="receiverNeedCol" text="Needs" prefWidth="200"/>
+                        <TableColumn fx:id="receiverContactCol" text="Contact" prefWidth="150"/>
+                    </columns>
+                </TableView>
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="Contact Receiver" onAction="#handleContactReceiver"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                    <Button text="Back" onAction="#showDashboard" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Log Hours View -->
+            <VBox fx:id="logHoursView" spacing="15" alignment="TOP_CENTER" visible="false" managed="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 30;">
+                <Label text="Log Volunteer Hours" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+                <VBox spacing="10" prefWidth="400">
+                    <Label text="Select Assignment" style="-fx-font-size: 14px; -fx-text-fill: #555;"/>
+                    <ComboBox fx:id="assignmentComboBox" promptText="Select assignment" prefWidth="380"/>
+
+                    <Label text="Hours Worked" style="-fx-font-size: 14px; -fx-text-fill: #555;"/>
+                    <TextField fx:id="hoursField" promptText="Enter hours"/>
+
+                    <Label text="Date" style="-fx-font-size: 14px; -fx-text-fill: #555;"/>
+                    <DatePicker fx:id="datePicker" prefWidth="380"/>
+
+                    <Label text="Notes" style="-fx-font-size: 14px; -fx-text-fill: #555;"/>
+                    <TextArea fx:id="notesArea" promptText="Enter notes about your work" prefHeight="80"/>
+
+                    <Label text="Update Role" style="-fx-font-size: 14px; -fx-text-fill: #555;"/>
+                    <ComboBox fx:id="roleComboBox" promptText="Select your role" prefWidth="380"/>
+                </VBox>
+
+                <Label fx:id="errorLabel" style="-fx-text-fill: red; -fx-font-size: 12px;"/>
+                <HBox spacing="10" alignment="CENTER">
+                    <Button fx:id="logHoursButton" text="Submit Hours" onAction="#handleSubmitHours"
+                            style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                    <Button fx:id="updateRoleButton" text="Update Role" onAction="#handleUpdateRole"
+                            style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                    <Button text="Back" onAction="#showDashboard" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+
+        </StackPane>
+    </center>
+
+    <!-- Bottom Status Bar -->
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-background-color: #34495e; -fx-padding: 10;">
+            <Label fx:id="statusLabel" text="Ready" style="-fx-text-fill: #bdc3c7; -fx-font-size: 12px;"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

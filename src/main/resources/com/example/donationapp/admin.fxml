@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<BorderPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.donationapp.controllers.AdminController">
+
+    <!-- Top Navigation Bar -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-background-color: linear-gradient(to right, #e74c3c, #c0392b); -fx-padding: 15;">
+            <Label text="🛡️ Admin Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="welcomeLabel" text="Welcome, Admin" style="-fx-font-size: 14px; -fx-text-fill: white;"/>
+            <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout"
+                    style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-background-radius: 5;"/>
+        </HBox>
+    </top>
+
+    <!-- Left Sidebar -->
+    <left>
+        <VBox spacing="10" style="-fx-background-color: #2c3e50; -fx-padding: 20;" prefWidth="220">
+            <Label text="Admin Menu" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Separator/>
+            <Button fx:id="manageUsersBtn" text="👥 Manage Users" onAction="#showManageUsers" prefWidth="180"
+                    style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10;"/>
+            <Button fx:id="manageCasesBtn" text="📁 Manage Cases" onAction="#showManageCases" prefWidth="180"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10;"/>
+            <Button fx:id="viewDonationsBtn" text="💰 All Donations" onAction="#showAllDonations" prefWidth="180"
+                    style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10;"/>
+            <Button fx:id="verifyDonorsBtn" text="✓ Verify Donors" onAction="#showVerifyDonors" prefWidth="180"
+                    style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10;"/>
+            <Button fx:id="reportsBtn" text="📊 Reports" onAction="#showReports" prefWidth="180"
+                    style="-fx-background-color: #1abc9c; -fx-text-fill: white; -fx-background-radius: 5; -fx-padding: 10;"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Label fx:id="notificationLabel" text="" style="-fx-text-fill: #e74c3c; -fx-font-size: 11px;" wrapText="true"/>
+        </VBox>
+    </left>
+
+    <!-- Center Content Area -->
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-background-color: #ecf0f1; -fx-padding: 20;">
+
+            <!-- Default Dashboard View -->
+            <VBox fx:id="dashboardView" spacing="20" alignment="TOP_CENTER">
+                <Label text="System Overview" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+                <!-- Stats Cards -->
+                <HBox spacing="15" alignment="CENTER">
+                    <VBox alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" prefWidth="150">
+                        <Label fx:id="totalUsersLabel" text="0" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #3498db;"/>
+                        <Label text="Total Users" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+                    </VBox>
+                    <VBox alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" prefWidth="150">
+                        <Label fx:id="totalDonorsLabel" text="0" style="-fx-font-size: 25px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                        <Label text="Donors" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+                    </VBox>
+                    <VBox alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" prefWidth="150">
+                        <Label fx:id="totalCasesLabel" text="0" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #9b59b6;"/>
+                        <Label text="Active Cases" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+                    </VBox>
+                    <VBox alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);" prefWidth="150">
+                        <Label fx:id="totalDonationsLabel" text="\$0" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;"/>
+                        <Label text="Total Donations" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Recent Activity -->
+                <HBox spacing="20">
+                    <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15;" HBox.hgrow="ALWAYS">
+                        <Label text="Pending Verifications" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <TableView fx:id="pendingVerificationsTable" prefHeight="150">
+                            <columns>
+                                <TableColumn fx:id="pendingUserCol" text="User" prefWidth="150"/>
+                                <TableColumn fx:id="pendingEmailCol" text="Email" prefWidth="180"/>
+                                <TableColumn fx:id="pendingDateCol" text="Registered" prefWidth="100"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                    <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15;" HBox.hgrow="ALWAYS">
+                        <Label text="Recent Donations" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                        <TableView fx:id="recentDonationsTable" prefHeight="150">
+                            <columns>
+                                <TableColumn fx:id="recentDonorCol" text="Donor" prefWidth="120"/>
+                                <TableColumn fx:id="recentAmountCol" text="Amount" prefWidth="80"/>
+                                <TableColumn fx:id="recentCaseCol" text="Case" prefWidth="120"/>
+                            </columns>
+                        </TableView>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Manage Users View -->
+            <VBox fx:id="manageUsersView" spacing="15" alignment="TOP_CENTER" visible="false" managed="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
+                <HBox alignment="CENTER_LEFT" spacing="20">
+                    <Label text="Manage Users" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <TextField fx:id="userSearchField" promptText="Search users..." prefWidth="200"/>
+                    <ComboBox fx:id="userTypeFilterCombo" promptText="Filter by type" prefWidth="150">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="All"/>
+                                <String fx:value="Donor"/>
+                                <String fx:value="Receiver"/>
+                                <String fx:value="Volunteer"/>
+                                <String fx:value="Admin"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </HBox>
+                <TableView fx:id="usersTable" prefHeight="350">
+                    <columns>
+                        <TableColumn fx:id="userIdCol" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="userNameCol" text="Username" prefWidth="120"/>
+                        <TableColumn fx:id="userEmailCol" text="Email" prefWidth="180"/>
+                        <TableColumn fx:id="userTypeCol" text="Type" prefWidth="100"/>
+                        <TableColumn fx:id="userStatusCol" text="Status" prefWidth="100"/>
+                        <TableColumn fx:id="userActionsCol" text="Actions" prefWidth="150"/>
+                    </columns>
+                </TableView>
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="Delete Selected" onAction="#handleDeleteUser" style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                    <Button text="Refresh" onAction="#handleRefreshUsers" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                    <Button text="Back" onAction="#showDashboard" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Manage Cases View -->
+            <VBox fx:id="manageCasesView" spacing="15" alignment="TOP_CENTER" visible="false" managed="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
+                <HBox alignment="CENTER_LEFT" spacing="20">
+                    <Label text="Manage Charity Cases" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <ComboBox fx:id="caseStatusFilterCombo" promptText="Filter by status" prefWidth="150">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="All"/>
+                                <String fx:value="Pending"/>
+                                <String fx:value="Active"/>
+                                <String fx:value="Completed"/>
+                                <String fx:value="Rejected"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </HBox>
+                <TableView fx:id="casesTable" prefHeight="350">
+                    <columns>
+                        <TableColumn fx:id="caseIdCol" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="caseNameCol" text="Case Name" prefWidth="150"/>
+                        <TableColumn fx:id="caseReceiverCol" text="Receiver" prefWidth="120"/>
+                        <TableColumn fx:id="caseGoalCol" text="Goal" prefWidth="100"/>
+                        <TableColumn fx:id="caseRaisedCol" text="Raised" prefWidth="100"/>
+                        <TableColumn fx:id="caseStatusCol" text="Status" prefWidth="100"/>
+                        <TableColumn fx:id="caseActionsCol" text="Actions" prefWidth="120"/>
+                    </columns>
+                </TableView>
+                <HBox spacing="10" alignment="CENTER">
+                    <Button fx:id="approveCaseBtn" text="Approve" onAction="#handleApproveCase" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                    <Button fx:id="rejectCaseBtn" text="Reject" onAction="#handleRejectCase" style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                    <Button text="Refresh" onAction="#handleRefreshCases" style="-fx-background-color: #3498db; -fx-text-fill: white;"/>
+                    <Button text="Back" onAction="#showDashboard" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+
+            <!-- All Donations View -->
+            <VBox fx:id="allDonationsView" spacing="15" alignment="TOP_CENTER" visible="false" managed="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
+                <Label text="All Donations" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <TableView fx:id="allDonationsTable" prefHeight="400">
+                    <columns>
+                        <TableColumn fx:id="donationIdCol" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="donationDonorCol" text="Donor" prefWidth="120"/>
+                        <TableColumn fx:id="donationTypeCol" text="Type" prefWidth="100"/>
+                        <TableColumn fx:id="donationAmountCol" text="Amount" prefWidth="100"/>
+                        <TableColumn fx:id="donationCaseCol" text="Case" prefWidth="150"/>
+                        <TableColumn fx:id="donationDateCol" text="Date" prefWidth="120"/>
+                        <TableColumn fx:id="donationStatusCol" text="Status" prefWidth="100"/>
+                    </columns>
+                </TableView>
+                <Button text="Back" onAction="#showDashboard" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+            </VBox>
+
+            <!-- Verify Donors View -->
+            <VBox fx:id="verifyDonorsView" spacing="15" alignment="TOP_CENTER" visible="false" managed="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
+                <Label text="Pending Donor Verifications" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <TableView fx:id="unverifiedDonorsTable" prefHeight="350">
+                    <columns>
+                        <TableColumn fx:id="unverifiedIdCol" text="ID" prefWidth="50"/>
+                        <TableColumn fx:id="unverifiedNameCol" text="Username" prefWidth="150"/>
+                        <TableColumn fx:id="unverifiedEmailCol" text="Email" prefWidth="200"/>
+                        <TableColumn fx:id="unverifiedPhoneCol" text="Phone" prefWidth="120"/>
+                        <TableColumn fx:id="unverifiedDateCol" text="Registered" prefWidth="120"/>
+                    </columns>
+                </TableView>
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="Verify Selected" onAction="#handleVerifyDonor" style="-fx-background-color: #27ae60; -fx-text-fill: white;"/>
+                    <Button text="Reject Selected" onAction="#handleRejectDonor" style="-fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+                    <Button text="Back" onAction="#showDashboard" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Reports View -->
+            <VBox fx:id="reportsView" spacing="15" alignment="TOP_CENTER" visible="false" managed="false"
+                  style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
+                <Label text="System Reports" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <HBox spacing="20" alignment="CENTER">
+                    <VBox spacing="10" style="-fx-background-color: #f8f9fa; -fx-padding: 20; -fx-background-radius: 10;">
+                        <Label text="Donation Summary" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <Label fx:id="reportTotalDonations" text="Total Donations: $0"/>
+                        <Label fx:id="reportAvgDonation" text="Average Donation: $0"/>
+                        <Label fx:id="reportDonationCount" text="Number of Donations: 0"/>
+                    </VBox>
+                    <VBox spacing="10" style="-fx-background-color: #f8f9fa; -fx-padding: 20; -fx-background-radius: 10;">
+                        <Label text="User Summary" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <Label fx:id="reportTotalUsers" text="Total Users: 0"/>
+                        <Label fx:id="reportVerifiedDonors" text="Verified Donors: 0"/>
+                        <Label fx:id="reportActiveReceivers" text="Active Receivers: 0"/>
+                    </VBox>
+                    <VBox spacing="10" style="-fx-background-color: #f8f9fa; -fx-padding: 20; -fx-background-radius: 10;">
+                        <Label text="Case Summary" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                        <Label fx:id="reportActiveCases" text="Active Cases: 0"/>
+                        <Label fx:id="reportCompletedCases" text="Completed Cases: 0"/>
+                        <Label fx:id="reportTotalRaised" text="Total Raised: $0"/>
+                    </VBox>
+                </HBox>
+                <Button text="Back" onAction="#showDashboard" style="-fx-background-color: #95a5a6; -fx-text-fill: white;"/>
+            </VBox>
+
+        </StackPane>
+    </center>
+
+    <!-- Bottom Status Bar -->
+    <bottom>
+        <HBox alignment="CENTER" style="-fx-background-color: #34495e; -fx-padding: 10;">
+            <Label fx:id="statusLabel" text="System Ready" style="-fx-text-fill: #bdc3c7; -fx-font-size: 12px;"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
